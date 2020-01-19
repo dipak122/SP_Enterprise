@@ -9,25 +9,38 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+    <script type="text/javascript">
+    function company(s1,s2){
+     var s1=document.getElementById(s1);
+     var s2= document.getElementById(s2);
+     console.log(s1)
+    }
+    </script>
   </head>
   <body>
     <h1>Hello, world!</h1>
+    <?php
+    $companyname="null1";
+    ?>
 
     <div class="dropdown">
+    <form name="select" method="POST">
                 <label for="exampleInputEmail1">Company name : </label>
-                <select name="companyname">
+                <select name="companyname" id="select" >
                   
-                  <option value="<?php $companyname='null1'; ?>" selected>Select company:</option>
+                  <option value="" selected disabled>Select company:</option>
         
-                  <option  value="<?php $companyname='Sai (malad)'; ?>">Sai (malad)</option>
-                  <option value="<?php $companyname='Raju bhai (kandivali)'; ?>">Raju bhai (kandivali)</option>
-                  <option value="<?php $companyname='bijay bhai (malad)'; ?>">bijay bhai (malad)</option>
-                  <option value="<?php $companyname='Mukesh bhai (bhyander)'; ?>">Mukesh bhai (bhyander)</option>
+                  <option  value="Sai (malad)">Sai (malad)</option>
+                  <option value="Raju bhai (kandivali)">Raju bhai (kandivali)</option>
+                  <option value="bijay bhai (malad)">bijay bhai (malad)</option>
+                  <option value="Mukesh bhai (bhyander)">Mukesh bhai (bhyander)</option>
                 </select>
+                <button type=submit name="submit">Submit</button>
+                </form>
                 </div>
 
     <div class="container">
-    <table class="table table-striped">
+    <table class="table table-striped" id="table" name="table">
   <thead>
     <tr>
       <th scope="col">Bills no.</th>
@@ -39,12 +52,17 @@
   <tbody>
   <?php 
     $connection = new mysqli('localhost','root','','SP_Enterprise');
-    echo $companyname;
+    
+    if(isset($_POST['submit'])){
+      $companyname = $_POST['companyname'];
+      //echo "your input is ".$companyname;
+    }
+  
     if($companyname=="null1"){
     $sql= "select * from bill";}
     else{
         $sql = "select * from bill where companyname='$companyname'";
-    }
+}
     $result=$connection->query($sql);
     while($row=mysqli_fetch_array($result)){
         ?>
@@ -60,6 +78,13 @@
 <?php 
 
 $sql1="select sum(amount) from bill";
+
+if($companyname!="null1")
+{
+  $sql1="select sum(amount) from bill where companyname='$companyname'";
+}
+
+
 $result1=$connection->query($sql1);
 while($row=mysqli_fetch_array($result1)){
     ?>

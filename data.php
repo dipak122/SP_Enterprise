@@ -3,10 +3,10 @@
 $connection = new mysqli('localhost','root','','SP_Enterprise');
 
 if(!$connection==false)
-echo "connection not done";
+echo "connection  done";
 
 else
-echo "connection done";
+echo "connection not done";
 
 $billno=$_POST['billno'];
 $companyname= $_POST['companyname'];
@@ -17,7 +17,7 @@ $sql = "insert into Bill (billno,companyname,amount) values('$billno','$companyn
 $result = $connection -> query($sql);
 
 
-if($result)
+if($result==true)
 echo "data inserted successfully";
 else
 echo "data not inserted!!!";
