@@ -18,15 +18,18 @@
     </script>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+  <?php
+  $u=1;
+  require_once('header.php') ?>
     <?php
+    
     $companyname="null1";
     ?>
 
     <div class="dropdown">
     <form name="select" method="POST">
                 <label for="exampleInputEmail1">Company name : </label>
-                <select name="companyname" id="select" >
+                <select name="companyname" id="select" required>
                   
                   <option value="" selected disabled>Select company:</option>
         
@@ -37,9 +40,10 @@
                 </select>
                 <button type=submit name="submit">Submit</button>
                 </form>
-                </div>
-
+                </div><br><br>
+          
     <div class="container">
+  
     <table class="table table-striped" id="table" name="table">
   <thead>
     <tr>
@@ -47,6 +51,7 @@
       <th scope="col">Company Name</th>
       <th scope="col">Amount</th>
       <th scope="col">Money Status</th>
+      <th></th><th></th>
     </tr>
   </thead>
   <tbody>
@@ -66,12 +71,22 @@
     $result=$connection->query($sql);
     while($row=mysqli_fetch_array($result)){
         ?>
+          <form method="POST" action="updatebill.php">
     <tr>
-      <th scope="row"><?php echo $row['billno']; ?></th>
+      <th scope="row"><input type="hidden" name="billno" value=<?php echo $row['billno']; ?>><?php echo $row['billno']; ?></th>
       <td><?php echo $row['companyname']; ?></td>
       <td><?php echo $row['amount']; ?></td>
-      <td>blank</td>
-    </tr>
+      <?php 
+      if($row['money_status']=='PAID') { ?>
+      <td style=" color: green;  font-weight: bold;"><?php echo $row['money_status']; ?></td>
+      <td></td>
+      <td></td>
+      <?php } else { ?>
+      <td><?php echo $row['money_status']; ?></td>
+      <td style=" color: red;  font-weight: bold;"><input type="checkbox" name="status" value="paid">  Paid</td>
+      <td><button type="submit" name="submit1">Submit</button></td>
+     <?php } ?>
+    </tr></form>
     <?php 
     } 
 ?>
@@ -99,7 +114,10 @@ while($row=mysqli_fetch_array($result1)){
 ?>
   </tbody>
 </table>
+
 </div>
+
+
 
 
     <!-- Optional JavaScript -->
